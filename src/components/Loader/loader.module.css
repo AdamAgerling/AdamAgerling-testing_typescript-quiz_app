@@ -1,0 +1,58 @@
+.loader{
+  display: block;
+  position: relative;
+  height: 25px;
+  width: 200px;
+  background: #ccc;
+  overflow: hidden;
+}
+.loader:after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: #0300a7;
+  animation: 30s prog ease-in infinite;
+}
+@keyframes prog {
+  to  {   width: 100%;}
+}
+/* @keyframes percentage {
+  0% { content: "0s"}
+  3% { content: "1s"}
+  6% { content: "2s"}
+  10% { content: "3s"}
+  13% { content: "4s"}
+  16% { content: "5s"}
+  20% { content: "6s"}
+  23% { content: "7s"}
+  26% { content: "8s"}
+  30% { content: "9s"}
+  33% { content: "10s"}
+  36% { content: "11s"}
+  40% { content: "12s"}
+  43% { content: "13s"}
+  46% { content: "14s"}
+  50% { content: "15s"}
+  53% { content: "16s"}
+  56% { content: "17s"}
+  60% { content: "18s"}
+  63% { content: "19s"}
+  66% { content: "20s"}
+  70% { content: "21s"}
+  73% { content: "22s"}
+  76% { content: "23s"}
+  80% { content: "24s"}
+  83% { content: "25s"}
+  86% { content: "26s"}
+  90% { content: "27s"}
+  93% { content: "28s"}
+  96% { content: "29s"}
+  100% { content: "30s"}
+} */
+.loader-container{
+  display: flex;
+  justify-content: center;
+}
