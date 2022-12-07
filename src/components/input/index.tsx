@@ -1,16 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext } from 'react';
+import Context from '../context/Context';
 import styles from './input.module.css';
 
 type InputProps = {
   label?: string;
-  playerName?: string;
 };
 
-export const Input: FC<InputProps> = ({ label, playerName }) => {
-  const [nameInput, setNameInput] = useState<string>();
+export const Input: FC<InputProps> = ({ label }) => {
+  const { setPlayer } = useContext(Context);
 
   const playerNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNameInput(e.target.value);
+    setPlayer(e.target.value);
   };
 
   return (
