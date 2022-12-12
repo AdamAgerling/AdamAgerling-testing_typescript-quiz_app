@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
 import Context from '../components/context/Context';
-import { TriviaCategories } from '../components/TriviaFetch';
+import { QuizGame } from '../components/QuizGame';
 
 export const Quiz: FC = () => {
   const { player } = useContext(Context);
@@ -8,7 +8,7 @@ export const Quiz: FC = () => {
   return (
     <div>
       <h1>Välkommen {player}</h1>
-      <TriviaCategories />
+      <QuizGame />
     </div>
   );
 };
