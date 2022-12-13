@@ -51,14 +51,15 @@ export const QuizGame = () => {
     setGameOver(false);
     setNumber(0);
     setActiveTime(true);
+    setTimer(TIME);
     if (!difficulty) {
       setDifficulty('easy');
     }
+
     const newQuestions = await fetchQuestions(
       categories as Categories,
       (difficulty || 'easy') as Difficulty
     );
-
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -92,6 +93,7 @@ export const QuizGame = () => {
     setNumber((prev) => prev + 1);
     setActiveTime(true);
     setTimer(TIME);
+
     const newQuestions = await fetchQuestions(
       categories as Categories,
       difficulty as Difficulty
@@ -136,7 +138,15 @@ export const QuizGame = () => {
       )}
 
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-        <button onClick={startQuiz}>Start Quiz</button>
+        <button
+          onClick={() => {
+            setTimeout(() => {
+              startQuiz();
+            }, 3000);
+          }}
+        >
+          Start Quiz
+        </button>
       ) : null}
 
       {!gameOver ? <p>Score: {score}</p> : null}
@@ -160,7 +170,9 @@ export const QuizGame = () => {
         <Button
           buttonText="Next Question"
           onClick={() => {
-            nextQuestion();
+            setTimeout(() => {
+              nextQuestion();
+            }, 3000);
           }}
         />
       ) : null}
