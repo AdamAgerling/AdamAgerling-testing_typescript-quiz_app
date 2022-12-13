@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Question } from '../Question';
 import {
   fetchQuestions,
@@ -8,7 +8,7 @@ import {
 } from '../TriviaFetch';
 import { difficultyOptions, categoryOptions } from '../constants';
 import { Button } from '../Button';
-import { Time, TOTAL_QUESTIONS, difficultyPoints } from '../../config';
+import { TIME, TOTAL_QUESTIONS, DIFFICULTY_POINTS } from '../../config';
 
 export type AnswerProps = {
   question: string;
@@ -28,47 +28,29 @@ export const QuizGame = () => {
   const [difficulty, setDifficulty] = useState<string>('');
   const [categories, setCategory] = useState<string>();
   const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [timer, setTimer] = useState<number>(TIME);
+  const [activeTime, setActiveTime] = useState<boolean>(false);
 
   const shuffledCategoryOptions = categoryOptions.sort(
     () => Math.random() - 0.5
   );
 
-  const Timer = () => {
-    let elapsedTime = 0;
-    const interval = setInterval(() => {
-      if (elapsedTime === Time) {
-        clearInterval(interval);
+  useEffect(() => {
+    if (activeTime) {
+      const elapsedTime: number = 0;
+      if (timer > elapsedTime) {
+        setTimeout(() => {
+          setTimer(timer - 1);
+        }, 1000);
       }
-      if (userAnswers[number]?.correct) {
-        let points: number = 0;
-        switch (userAnswers[number].questionDifficulty) {
-          case 'easy':
-            points = difficultyPoints.easy;
-            break;
-          case 'medium':
-            points = difficultyPoints.medium;
-            break;
-          case 'hard':
-            points = difficultyPoints.hard;
-            break;
-        }
-        console.log(elapsedTime, 'IRON FORGE');
-        setTotalPoints(totalPoints + (Time - elapsedTime) * points);
-        clearInterval(interval);
-      }
-      if (userAnswers[number]?.correct === false) {
-        clearInterval(interval);
-      }
-      console.log(elapsedTime);
-      elapsedTime++;
-    }, 1000);
-    return;
-  };
+    }
+  }, [activeTime, timer]);
 
   const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-
+    setNumber(0);
+    setActiveTime(true);
     if (!difficulty) {
       setDifficulty('easy');
     }
@@ -76,21 +58,19 @@ export const QuizGame = () => {
       categories as Categories,
       (difficulty || 'easy') as Difficulty
     );
-    Timer();
 
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
-
     setLoading(false);
   };
   console.log(totalPoints);
+
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       const answer = e.currentTarget.value;
-
       const correct = questions[0].correctAnswer === answer;
-
+      setActiveTime(false);
       if (correct) {
         setScore((prev) => prev + 1);
         setCategory('');
@@ -110,14 +90,14 @@ export const QuizGame = () => {
 
   const nextQuestion = async () => {
     setNumber((prev) => prev + 1);
-
+    setActiveTime(true);
+    setTimer(TIME);
     const newQuestions = await fetchQuestions(
       categories as Categories,
       difficulty as Difficulty
     );
-    Timer();
-    setQuestions(newQuestions);
 
+    setQuestions(newQuestions);
     if (number === TOTAL_QUESTIONS) {
       setGameOver(true);
     } else {
@@ -140,6 +120,7 @@ export const QuizGame = () => {
           </select>
         </>
       )}
+      <p>TIME ELAPSED: {timer}</p>
 
       {!categories && (
         <>
@@ -160,6 +141,7 @@ export const QuizGame = () => {
 
       {!gameOver ? <p>Score: {score}</p> : null}
       {loading && <p>The Api is Loading... or its down for now.</p>}
+
       {!loading && !gameOver && (
         <Question
           questionNumber={number + 1}
