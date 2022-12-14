@@ -9,7 +9,10 @@ export const Home: FC = () => {
   return (
     <div className="App">
       <Input label={'Enter a name'} />
-      <Button onClick={() => navigate('/quiz')} buttonText={'Start Quiz'} />
+      <Button
+        onClick={() => navigate('/quiz')}
+        buttonText={'Navigate to Quiz'}
+      />
     </div>
   );
 };
