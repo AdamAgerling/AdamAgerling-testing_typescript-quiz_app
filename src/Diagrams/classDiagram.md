@@ -6,7 +6,7 @@
     Home <|-- Button
     Quiz <|-- QuizGame
     QuizGame <|-- Question
-
+    QuizGame <|-- API
     class App {
         +String beakColor
         +swim()
@@ -31,5 +31,8 @@
 
     }
 
+   class API {
+
+   }
 
 ```
