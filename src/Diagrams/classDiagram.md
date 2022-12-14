@@ -1,23 +1,23 @@
 ```mermaid
   classDiagram
-    User <|-- Quiz
-    Quiz <|-- User
+    "Generic Quizname" <|-- Home
+    "Generic Quizname" <|-- Quiz
     Quiz <|-- API
-    API <|-- Quiz
     User : +int age
     User : +String gender
     User: +isMammal()
     User: +mate()
+
     class API{
         +String beakColor
         +swim()
         +quack()
     }
-    class Quiz{
-        -int sizeInFeet
-        -canEat()
+    class Home{
+        -Input
+        -Button(navigate to Quiz)
     }
-    class User{
+    class Quiz{
         +bool is_wild
         +run()
     }
