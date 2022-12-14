@@ -1,6 +1,6 @@
 ```mermaid
   classDiagram
-    App <|-- Home.
+    App <|-- Home
     App <|-- Quiz
     Home <|-- input
     Home <|-- Button
@@ -13,21 +13,21 @@
         +quack()
     }
 
-    class Home{
+    class Home {
         -Input
         -Button(navigate to Quiz)
     }
 
-    class Quiz{
+    class Quiz {
         +bool is_wild
         +run()
     }
 
-    class QuizGame{
+    class QuizGame {
 
     }
 
-    class Question{
+    class Question {
 
     }
 
