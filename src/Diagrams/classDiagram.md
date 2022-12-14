@@ -1,7 +1,7 @@
 ```mermaid
   classDiagram
-    "Generic Quizname" <|-- Home
-    "Generic Quizname" <|-- Quiz
+    Generic Quizname <|-- Home
+    Generic Quizname <|-- Quiz
     Quiz <|-- API
     User : +int age
     User : +String gender
