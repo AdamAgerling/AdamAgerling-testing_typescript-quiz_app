@@ -8,7 +8,7 @@
     User: +isMammal()
     User: +mate()
 
-    class API{
+    class Generic Quizname {
         +String beakColor
         +swim()
         +quack()
