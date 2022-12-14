@@ -1,7 +1,7 @@
 ```mermaid
   classDiagram
-    Generic Quizname <|-- Home
-    Generic Quizname <|-- Quiz
+    Home <|-- Generic Quizname
+    Home <|-- Quiz
     Quiz <|-- API
 
 
