@@ -23,9 +23,10 @@
 
     else Incorrect Answer
       User->>Quiz: Answer Question wrongfully
-      Quiz-->>User: Propmpt with button "next question"
+      Quiz-->>User: Propmpt with button "Next Question"
+       User->>Quiz: Press "Next Question"
       Quiz->>API: fetch request
       API-->>Quiz: send response
-      Quiz-->>User: Send Question with newly selected category.
+      Quiz-->>User: Send Question with same category as before.
 end
 ```
