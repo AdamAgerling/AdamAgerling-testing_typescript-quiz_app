@@ -20,4 +20,11 @@
       Quiz->>API: fetch request
       API-->>Quiz: send response
       Quiz-->>User: Send Question with newly selected category.
+
+    else
+     User->>Quiz: Answer Question wrongfully
+      Quiz-->>User: Propmpt with button "next question"
+      Quiz->>API: fetch request
+      API-->>Quiz: send response
+      Quiz-->>User: Send Question with newly selected category.
 ```
