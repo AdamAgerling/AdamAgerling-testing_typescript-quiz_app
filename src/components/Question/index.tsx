@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { AnswerProps } from '../QuizGame';
+import styles from './question.module.css';
 
 type QuestionProps = {
   question: string;
@@ -28,10 +29,9 @@ export const Question: FC<QuestionProps> = ({
         {answers?.map((answer) => (
           <div key={answer}>
             <button
-              style={{
-                backgroundColor:
-                  userAnswer?.correctAnswer === answer ? 'green' : '',
-              }}
+              className={`${
+                userAnswer?.correctAnswer === answer ? styles.buttonSuccess : ''
+              }`}
               disabled={!!userAnswer}
               value={answer}
               onClick={callback}

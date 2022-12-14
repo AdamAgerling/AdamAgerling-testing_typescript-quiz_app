@@ -7,7 +7,11 @@ export const Quiz: FC = () => {
 
   return (
     <div>
-      <h1>Välkommen {player}</h1>
+      {player ? (
+        <h1>Welcome {player} </h1>
+      ) : (
+        <h1> Welcome Mr."important" Noname</h1>
+      )}
       <QuizGame />
     </div>
   );

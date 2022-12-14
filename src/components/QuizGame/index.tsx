@@ -28,8 +28,12 @@ export const QuizGame = () => {
   const [difficulty, setDifficulty] = useState<string>('');
   const [categories, setCategory] = useState<string>();
   const [totalPoints, setTotalPoints] = useState<number>(0);
+
   const [timer, setTimer] = useState<number>(TIME);
   const [activeTime, setActiveTime] = useState<boolean>(false);
+
+  const [timeToStart, setTimeToStart] = useState<number>(3);
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   const shuffledCategoryOptions = categoryOptions.sort(
     () => Math.random() - 0.5
@@ -46,12 +50,30 @@ export const QuizGame = () => {
     }
   }, [activeTime, timer]);
 
+  useEffect(() => {
+    if (isActive) {
+      const elapsedTime: number = 0;
+      if (timeToStart > elapsedTime) {
+        setTimeout(() => {
+          setTimeToStart(timeToStart - 1);
+        }, 1000);
+      }
+      if (timeToStart === elapsedTime) {
+        setIsActive(false);
+        setTimeToStart(3);
+      }
+    }
+  }, [isActive, timeToStart]);
+
   const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
     setNumber(0);
+    setIsActive(true);
     setActiveTime(true);
     setTimer(TIME);
+    setIsActive(true);
+
     if (!difficulty) {
       setDifficulty('easy');
     }
@@ -72,11 +94,12 @@ export const QuizGame = () => {
       const answer = e.currentTarget.value;
       const correct = questions[0].correctAnswer === answer;
       setActiveTime(false);
+      setIsActive(false);
+
       if (correct) {
         setScore((prev) => prev + 1);
         setCategory('');
       }
-
       const answerObject = {
         question: questions[0].question,
         answer,
@@ -84,7 +107,6 @@ export const QuizGame = () => {
         questionDifficulty: difficulty,
         correctAnswer: questions[0].correctAnswer,
       };
-
       setUserAnswers((prev) => [...prev, answerObject]);
     }
   };
@@ -93,6 +115,7 @@ export const QuizGame = () => {
     setNumber((prev) => prev + 1);
     setActiveTime(true);
     setTimer(TIME);
+    setIsActive(true);
 
     const newQuestions = await fetchQuestions(
       categories as Categories,
@@ -110,72 +133,73 @@ export const QuizGame = () => {
 
   return (
     <div>
-      {!difficulty && (
+      {isActive ? (
+        <p>{timeToStart}</p>
+      ) : (
         <>
-          <p>Select Difficulty</p>
-          <select onChange={(e) => setDifficulty(e.target.value)}>
-            {difficultyOptions.map((difficulty, index) => (
-              <option value={difficulty.id} key={index}>
-                {difficulty.difficultyOption}
-              </option>
-            ))}
-          </select>
-        </>
-      )}
-      <p>TIME ELAPSED: {timer}</p>
+          {!difficulty && (
+            <div>
+              <p>Select Difficulty</p>
+              <select onChange={(e) => setDifficulty(e.target.value)}>
+                {difficultyOptions.map((difficulty, index) => (
+                  <option value={difficulty.id} key={index}>
+                    {difficulty.difficultyOption}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {!gameOver && <p>TIME ELAPSED: {timer}</p>}
 
-      {!categories && (
-        <>
-          <p>Select Category</p>
-          {shuffledCategoryOptions.slice(0, 3).map((category, index) => (
+          {!categories && (
+            <>
+              <p>Select Category</p>
+              {shuffledCategoryOptions.slice(0, 3).map((category, index) => (
+                <Button
+                  buttonText={category.categoryOption}
+                  onClick={() => setCategory(category.id)}
+                  key={index}
+                />
+              ))}
+            </>
+          )}
+
+          {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
             <Button
-              buttonText={category.categoryOption}
-              onClick={() => setCategory(category.id)}
-              key={index}
+              onClick={() => {
+                startQuiz();
+              }}
+              buttonText={'Start Quiz'}
             />
-          ))}
+          ) : null}
+
+          {!gameOver ? <p>Score: {score}</p> : null}
+          {loading && <p>The Api is Loading... or its down for now.</p>}
+
+          {!loading && !gameOver && (
+            <Question
+              questionNumber={number + 1}
+              totalQuestions={TOTAL_QUESTIONS}
+              question={questions[0].question}
+              answers={questions[0].answers}
+              userAnswer={userAnswers ? userAnswers[number] : undefined}
+              callback={checkAnswer}
+            />
+          )}
+          {!gameOver &&
+          !loading &&
+          userAnswers.length === number + 1 &&
+          number !== TOTAL_QUESTIONS - 1 ? (
+            <button
+              onClick={() => {
+                nextQuestion();
+              }}
+            >
+              Next Question
+            </button>
+          ) : null}
         </>
       )}
-
-      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-        <button
-          onClick={() => {
-            setTimeout(() => {
-              startQuiz();
-            }, 3000);
-          }}
-        >
-          Start Quiz
-        </button>
-      ) : null}
-
-      {!gameOver ? <p>Score: {score}</p> : null}
-      {loading && <p>The Api is Loading... or its down for now.</p>}
-
-      {!loading && !gameOver && (
-        <Question
-          questionNumber={number + 1}
-          totalQuestions={TOTAL_QUESTIONS}
-          question={questions[0].question}
-          answers={questions[0].answers}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
-          callback={checkAnswer}
-        />
-      )}
-
-      {!gameOver &&
-      !loading &&
-      userAnswers.length === number + 1 &&
-      number !== TOTAL_QUESTIONS - 1 ? (
-        <Button
-          buttonText="Next Question"
-          onClick={() => {
-            setTimeout(() => {
-              nextQuestion();
-            }, 3000);
-          }}
-        />
-      ) : null}
     </div>
   );
 };
