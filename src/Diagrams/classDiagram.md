@@ -3,10 +3,7 @@
     Generic Quizname <|-- Home
     Generic Quizname <|-- Quiz
     Quiz <|-- API
-    User : +int age
-    User : +String gender
-    User: +isMammal()
-    User: +mate()
+
 
     class Generic Quizname {
         +String beakColor
