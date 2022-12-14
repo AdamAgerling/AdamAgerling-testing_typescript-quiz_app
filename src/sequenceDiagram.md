@@ -12,6 +12,12 @@
       Quiz->>API: fetch request
       API-->>Quiz: send response
       Quiz-->>User: Send Question
-      User->>Quiz: Answer Question
 
+    alt Correct Answer
+      User->>Quiz: Answer Question correctly
+      Quiz-->>User: Propmpt with new Category
+      User->>Quiz: Pick category and press next question
+      Quiz->>API: fetch request
+      API-->>Quiz: send response
+      Quiz-->>User: Send Question with newly selected category.
 ```
