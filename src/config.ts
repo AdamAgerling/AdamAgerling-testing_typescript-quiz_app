@@ -2,6 +2,12 @@ export const TIME: number = 30;
 export const DIFFICULTY_POINTS = { EASY: 1, MEDIUM: 3, HARD: 5 };
 export const TOTAL_QUESTIONS: number = 9;
 
+export enum Difficulties {
+  easy = 'Easy',
+  medium = 'Medium',
+  hard = 'Hard',
+}
+
 // TODO
 // KOLLA CLEAR INTERVALSKITEN. GOOGLE IT BITCH.
 // OM KORREKT SVAR: Disabla next question knappen om inte ny kategori är vald
