@@ -26,16 +26,21 @@ const difficultySelector = (data: string) => {
 };
 
 export enum Categories {
-  ArtsAndLiterature = 'Arts & Literature',
-  FilmAndTV = 'Film & TV',
-  FoodAndDrink = 'Food & Drink',
-  GeneralKnowledge = 'General Knowledge',
-  Geography = 'Geography',
-  History = 'History',
-  Music = 'Music',
-  Science = 'Science',
-  SocietyAndCulture = 'Society & Culture',
-  SportAndLeisure = 'Sport & Leisure',
+  artsAndLiterature = 'Arts & Literature',
+  filmAndTV = 'Film & TV',
+  foodAndDrink = 'Food & Drink',
+  generalKnowledge = 'General Knowledge',
+  geography = 'Geography',
+  history = 'History',
+  music = 'Music',
+  science = 'Science',
+  societyAndCulture = 'Society & Culture',
+  sportAndLeisure = 'Sport & Leisure',
+}
+
+export enum Categories2 {
+  music,
+  history,
 }
 
 export type QuestionsState = Question & { answers: string[] };

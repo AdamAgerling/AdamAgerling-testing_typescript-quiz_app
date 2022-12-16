@@ -1,9 +1,10 @@
-export const TIME: number = 33;
-export const DIFFICULTY_POINTS = { easy: 1, medium: 3, hard: 5 };
+export const TIME: number = 30;
+export const DIFFICULTY_POINTS = { EASY: 1, MEDIUM: 3, HARD: 5 };
 export const TOTAL_QUESTIONS: number = 9;
 
 // TODO
 // KOLLA CLEAR INTERVALSKITEN. GOOGLE IT BITCH.
+// OM KORREKT SVAR: Disabla next question knappen om inte ny kategori är vald
 
 // const Timer = () => {
 //   const interval = setInterval(() => {

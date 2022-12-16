@@ -7,20 +7,17 @@
     Quiz <|-- QuizGame
     QuizGame <|-- Question
     QuizGame <|-- API
+
     class App {
-        +String beakColor
-        +swim()
-        +quack()
+
     }
 
     class Home {
-        -Input
-        -Button(navigate to Quiz)
+
     }
 
     class Quiz {
-        +bool is_wild
-        +run()
+
     }
 
     class QuizGame {

@@ -26,8 +26,8 @@ export const QuizGame = () => {
   const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(true);
   const [difficulty, setDifficulty] = useState<string>('');
-  const [categories, setCategory] = useState<string>();
-  const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [categories, setCategories] = useState<string>();
+  // const [totalPoints, setTotalPoints] = useState<number>(0);
 
   const [timer, setTimer] = useState<number>(TIME);
   const [activeTime, setActiveTime] = useState<boolean>(false);
@@ -71,7 +71,7 @@ export const QuizGame = () => {
     setNumber(0);
     setIsActive(true);
     setActiveTime(true);
-    setTimer(TIME);
+    setTimer(TIME + timeToStart);
     setIsActive(true);
 
     if (!difficulty) {
@@ -87,7 +87,6 @@ export const QuizGame = () => {
     setUserAnswers([]);
     setLoading(false);
   };
-  console.log(totalPoints);
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
@@ -98,7 +97,7 @@ export const QuizGame = () => {
 
       if (correct) {
         setScore((prev) => prev + 1);
-        setCategory('');
+        setCategories('');
       }
       const answerObject = {
         question: questions[0].question,
@@ -114,7 +113,7 @@ export const QuizGame = () => {
   const nextQuestion = async () => {
     setNumber((prev) => prev + 1);
     setActiveTime(true);
-    setTimer(TIME);
+    setTimer(TIME + timeToStart);
     setIsActive(true);
 
     const newQuestions = await fetchQuestions(
@@ -157,7 +156,7 @@ export const QuizGame = () => {
               {shuffledCategoryOptions.slice(0, 3).map((category, index) => (
                 <Button
                   buttonText={category.categoryOption}
-                  onClick={() => setCategory(category.id)}
+                  onClick={() => setCategories(category.id)}
                   key={index}
                 />
               ))}
