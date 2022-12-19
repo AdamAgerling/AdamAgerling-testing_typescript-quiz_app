@@ -7,8 +7,11 @@ import {
   Categories,
 } from '../TriviaFetch';
 import { difficultyOptions, categoryOptions } from '../constants';
-import { Button } from '../Button';
-import { TIME, TOTAL_QUESTIONS, DIFFICULTY_POINTS } from '../../config';
+import {
+  TIME,
+  TOTAL_QUESTIONS,
+  DIFFICULTY_POINTS,
+} from '../../utilities/quizConfig';
 
 export type AnswerProps = {
   question: string;
@@ -139,7 +142,10 @@ export const QuizGame = () => {
           {!difficulty && (
             <div>
               <p>Select Difficulty</p>
-              <select onChange={(e) => setDifficulty(e.target.value)}>
+              <select
+                onChange={(e) => setDifficulty(e.target.value)}
+                data-testid="Select-Difficulty"
+              >
                 {difficultyOptions.map((difficulty, index) => (
                   <option value={difficulty.id} key={index}>
                     {difficulty.difficultyOption}
@@ -148,28 +154,32 @@ export const QuizGame = () => {
               </select>
             </div>
           )}
-          {!gameOver && <p>TIME ELAPSED: {timer}</p>}
+          {!gameOver && <p>TIME REMANING: {timer}</p>}
 
           {!categories && (
             <>
               <p>Select Category</p>
               {shuffledCategoryOptions.slice(0, 3).map((category, index) => (
-                <Button
-                  buttonText={category.categoryOption}
+                <button
+                  data-testid="Category-Button"
                   onClick={() => setCategories(category.id)}
                   key={index}
-                />
+                >
+                  {category.categoryOption}
+                </button>
               ))}
             </>
           )}
 
           {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-            <Button
+            <button
+              data-testid="Start-Quiz"
               onClick={() => {
                 startQuiz();
               }}
-              buttonText={'Start Quiz'}
-            />
+            >
+              Start Quiz
+            </button>
           ) : null}
 
           {!gameOver ? <p>Score: {score}</p> : null}
@@ -190,6 +200,7 @@ export const QuizGame = () => {
           userAnswers.length === number + 1 &&
           number !== TOTAL_QUESTIONS - 1 ? (
             <button
+              data-testid="NextQuestion"
               onClick={() => {
                 nextQuestion();
               }}

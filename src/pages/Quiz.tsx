@@ -7,11 +7,7 @@ export const Quiz: FC = () => {
 
   return (
     <div>
-      {player ? (
-        <h1>Welcome {player} </h1>
-      ) : (
-        <h1> Welcome Mr."important" Noname</h1>
-      )}
+      {player ? <h1>Welcome {player} </h1> : <h1> Welcome Sneakyguy</h1>}
       <QuizGame />
     </div>
   );

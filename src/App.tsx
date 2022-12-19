@@ -10,7 +10,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <h1>"Generic QuizName"</h1>
+      <h1>Generic QuizName</h1>
       <Context.Provider value={{ player, setPlayer }}>
         <Router>
           <Routes>

@@ -38,11 +38,6 @@ export enum Categories {
   sportAndLeisure = 'Sport & Leisure',
 }
 
-export enum Categories2 {
-  music,
-  history,
-}
-
 export type QuestionsState = Question & { answers: string[] };
 
 export const fetchQuestions = async (

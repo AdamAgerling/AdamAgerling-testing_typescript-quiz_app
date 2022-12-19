@@ -6,7 +6,7 @@
     Home <|-- Button
     Quiz <|-- QuizGame
     QuizGame <|-- Question
-    QuizGame <|-- API
+    QuizGame <|-- TriviaFetch(API)
 
     class App {
 
@@ -21,14 +21,14 @@
     }
 
     class QuizGame {
-
+      fetchQuestions()
     }
 
     class Question {
 
     }
 
-   class API {
+   class TriviaFetch(API) {
 
    }
 

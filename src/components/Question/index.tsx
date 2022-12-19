@@ -29,6 +29,7 @@ export const Question: FC<QuestionProps> = ({
         {answers?.map((answer) => (
           <div key={answer}>
             <button
+              data-testid="Answer-Button"
               className={`${
                 userAnswer?.correctAnswer === answer ? styles.buttonSuccess : ''
               }`}

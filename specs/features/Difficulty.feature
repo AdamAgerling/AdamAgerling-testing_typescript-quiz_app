@@ -2,5 +2,5 @@ Feature: Difficulty
 
   Scenario: Choose difficulty
     Given d: hard
-    When hehe
+    When Picking a difficulty
     Then The picked difficulty should be: hard

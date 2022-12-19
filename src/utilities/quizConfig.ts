@@ -1,5 +1,10 @@
 export const TIME: number = 30;
-export const DIFFICULTY_POINTS = { EASY: 1, MEDIUM: 3, HARD: 5 };
+export const DIFFICULTY_POINTS = {
+  WRONGANSWER: 0,
+  EASY: 1,
+  MEDIUM: 3,
+  HARD: 5,
+};
 export const TOTAL_QUESTIONS: number = 9;
 
 export enum Difficulties {
@@ -44,3 +49,39 @@ export enum Difficulties {
 //     console.log(timer);
 //   }, 1000);
 // };
+
+// export function calculateScore(answers: Answer[]) {
+//   let totalPoints = 0;
+//   let correctCount = 0;
+
+//   for (const answer of answers) {
+//     if (answer.correct) {
+//       totalPoints =
+//         totalPoints + answer.timeLeft * DIFFICULTY_POINTS[answer.difficulty];
+//       correctCount = correctCount + 1;
+//     }
+//   }
+//   totalPoints = totalPoints + correctCount * longestStreak(answers);
+
+//   return totalPoints;
+// }
+
+// function longestStreak(answers: Answer[]) {
+//   let streakAnswers = 0;
+//   let longest = 0;
+//   for (const answer of answers) {
+//     if (answer.correct) {
+//       streakAnswers = streakAnswers + 1;
+//       if (streakAnswers > longest) {
+//         longest = streakAnswers;
+//       }
+//     } else {
+//       streakAnswers = 0;
+//     }
+//   }
+//   if (longest >= 3) {
+//     return longest;
+//   } else {
+//     return 0;
+//   }
+// }
