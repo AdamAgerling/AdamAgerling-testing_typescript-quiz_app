@@ -26,11 +26,10 @@ export const QuizGame = () => {
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
   const [number, setNumber] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<AnswerProps[]>([]);
-  const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(true);
   const [difficulty, setDifficulty] = useState<string>('');
   const [categories, setCategories] = useState<string>();
-  // const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [totalPoints, setTotalPoints] = useState<number>(0);
 
   const [timer, setTimer] = useState<number>(TIME);
   const [activeTime, setActiveTime] = useState<boolean>(false);
@@ -86,7 +85,6 @@ export const QuizGame = () => {
       (difficulty || 'easy') as Difficulty
     );
     setQuestions(newQuestions);
-    setScore(0);
     setUserAnswers([]);
     setLoading(false);
   };
@@ -99,7 +97,6 @@ export const QuizGame = () => {
       setIsActive(false);
 
       if (correct) {
-        setScore((prev) => prev + 1);
         setCategories('');
       }
       const answerObject = {
@@ -131,6 +128,39 @@ export const QuizGame = () => {
       setNumber((prev) => prev);
       console.log(userAnswers);
     }
+  };
+
+  useEffect(() => {
+    calculateScore();
+  }, [userAnswers]);
+
+  const calculateScore = () => {
+    const difficultyPoints = DIFFICULTY_POINTS[difficulty];
+    const correctGuesses = userAnswers.filter(
+      (answer) => answer.correct
+    ).length;
+    const consecutiveGuesses = userAnswers.reduce((acc, answer) => {
+      if (answer.correct) {
+        return acc + 1;
+      } else {
+        return 0;
+      }
+    }, 0);
+
+    userAnswers.map((answer) => {
+      if (answer.correct) {
+        const calculateTotalScore =
+          consecutiveGuesses > 2
+            ? consecutiveGuesses * correctGuesses + timer * difficultyPoints
+            : timer * difficultyPoints;
+
+        setTotalPoints(totalPoints + calculateTotalScore);
+
+        return calculateTotalScore;
+      } else {
+        return 0;
+      }
+    });
   };
 
   return (
@@ -182,7 +212,7 @@ export const QuizGame = () => {
             </button>
           ) : null}
 
-          {!gameOver ? <p>Score: {score}</p> : null}
+          {!gameOver ? <p>Score: {totalPoints}</p> : null}
           {loading && <p>The Api is Loading... or its down for now.</p>}
 
           {!loading && !gameOver && (
@@ -204,6 +234,7 @@ export const QuizGame = () => {
               onClick={() => {
                 nextQuestion();
               }}
+              disabled={!categories}
             >
               Next Question
             </button>

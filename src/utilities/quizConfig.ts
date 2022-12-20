@@ -1,5 +1,5 @@
 export const TIME: number = 30;
-export const DIFFICULTY_POINTS = {
+export const DIFFICULTY_POINTS: any = {
   WRONGANSWER: 0,
   EASY: 1,
   MEDIUM: 3,
@@ -12,10 +12,6 @@ export enum Difficulties {
   medium = 'Medium',
   hard = 'Hard',
 }
-
-// TODO
-// KOLLA CLEAR INTERVALSKITEN. GOOGLE IT BITCH.
-// OM KORREKT SVAR: Disabla next question knappen om inte ny kategori är vald
 
 // const Timer = () => {
 //   const interval = setInterval(() => {
@@ -85,3 +81,39 @@ export enum Difficulties {
 //     return 0;
 //   }
 // }
+
+// const Timer = () => {
+//   const interval = setTimeout(() => {
+//     if (timer === TIME) {
+//       clearTimeout(interval);
+//       setTimer(0);
+//     }
+//     if (correctAnswer?.correct) {
+//       let points: number = 0;
+//       switch (correctAnswer.difficulty) {
+//         case 'wrong':
+//           points = DIFFICULTY_POINTS.WRONGANSWER;
+//           break;
+//         case 'easy':
+//           points = DIFFICULTY_POINTS.EASY;
+//           break;
+//         case 'medium':
+//           points = DIFFICULTY_POINTS.MEDIUM;
+//           break;
+//         case 'hard':
+//           points = DIFFICULTY_POINTS.HARD;
+//           break;
+//       }
+//       console.log(timer, 'if');
+//       setTotalPoints(totalPoints + (TIME - timer) * points);
+//       clearTimeout(interval);
+//       setTimer(0);
+//     }
+//     if (correctAnswer?.correct === false) {
+//       clearTimeout(interval);
+//       setTimer(0);
+//     }
+//     setTimer(timer + 1);
+//     console.log(timer);
+//   }, 1000);
+// };
