@@ -11,9 +11,9 @@ export interface Question {
 }
 
 export enum Difficulty {
-  Easy = 'easy',
-  Medium = 'medium',
-  Hard = 'hard',
+  easy = 'easy',
+  medium = 'medium',
+  hard = 'hard',
 }
 
 const difficultySelector = (data: string) => {
@@ -49,7 +49,6 @@ export const fetchQuestions = async (
   )}
   `;
   const data = await (await fetch(url)).json();
-  console.log(data);
 
   return data.map((question: Question) => ({
     ...question,

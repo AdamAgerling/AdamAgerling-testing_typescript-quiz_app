@@ -6,7 +6,7 @@
     Home <|-- Button
     Quiz <|-- QuizGame
     QuizGame <|-- Question
-    QuizGame <|-- TriviaFetch(API)
+    QuizGame <|-- TriviaFetch
 
     class App {
 
@@ -28,7 +28,7 @@
 
     }
 
-   class TriviaFetch(API) {
+   class TriviaFetch {
 
    }
 

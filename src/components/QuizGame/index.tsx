@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Question } from '../Question';
+import { QuestionLayout } from '../QuestionLayout';
 import {
   fetchQuestions,
   QuestionsState,
@@ -7,11 +7,8 @@ import {
   Categories,
 } from '../TriviaFetch';
 import { difficultyOptions, categoryOptions } from '../constants';
-import {
-  TIME,
-  TOTAL_QUESTIONS,
-  DIFFICULTY_POINTS,
-} from '../../utilities/quizConfig';
+import { TIME, TOTAL_QUESTIONS } from '../../utilities/quizConfig';
+import { calculatedScore } from '../../utilities/calculatedScore';
 
 export type AnswerProps = {
   question: string;
@@ -22,20 +19,20 @@ export type AnswerProps = {
 };
 
 export const QuizGame = () => {
-  const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
-  const [number, setNumber] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [userAnswers, setUserAnswers] = useState<AnswerProps[]>([]);
+  const [number, setNumber] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(true);
   const [difficulty, setDifficulty] = useState<string>('');
   const [categories, setCategories] = useState<string>();
-  const [totalPoints, setTotalPoints] = useState<number>(0);
 
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [timeToStart, setTimeToStart] = useState<number>(3);
   const [timer, setTimer] = useState<number>(TIME);
   const [activeTime, setActiveTime] = useState<boolean>(false);
 
-  const [timeToStart, setTimeToStart] = useState<number>(3);
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [quizScore, setQuizScore] = useState<number>(0);
 
   const shuffledCategoryOptions = categoryOptions.sort(
     () => Math.random() - 0.5
@@ -74,7 +71,6 @@ export const QuizGame = () => {
     setIsActive(true);
     setActiveTime(true);
     setTimer(TIME + timeToStart);
-    setIsActive(true);
 
     if (!difficulty) {
       setDifficulty('easy');
@@ -84,6 +80,7 @@ export const QuizGame = () => {
       categories as Categories,
       (difficulty || 'easy') as Difficulty
     );
+
     setQuestions(newQuestions);
     setUserAnswers([]);
     setLoading(false);
@@ -94,11 +91,13 @@ export const QuizGame = () => {
       const answer = e.currentTarget.value;
       const correct = questions[0].correctAnswer === answer;
       setActiveTime(false);
-      setIsActive(false);
-
+      setQuizScore(
+        (prev) => prev + calculatedScore(difficulty, userAnswers, timer)
+      );
       if (correct) {
         setCategories('');
       }
+
       const answerObject = {
         question: questions[0].question,
         answer,
@@ -126,42 +125,16 @@ export const QuizGame = () => {
       setGameOver(true);
     } else {
       setNumber((prev) => prev);
-      console.log(userAnswers);
     }
   };
 
   useEffect(() => {
-    calculateScore();
+    setQuizScore(
+      (prev) => prev + calculatedScore(difficulty, userAnswers, timer)
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAnswers]);
-
-  const calculateScore = () => {
-    const difficultyPoints = DIFFICULTY_POINTS[difficulty];
-    const correctGuesses = userAnswers.filter(
-      (answer) => answer.correct
-    ).length;
-    const consecutiveGuesses = userAnswers.reduce((acc, answer) => {
-      if (answer.correct) {
-        return acc + 1;
-      } else {
-        return 0;
-      }
-    }, 0);
-
-    userAnswers.map((answer) => {
-      if (answer.correct) {
-        const calculateTotalScore =
-          consecutiveGuesses > 2
-            ? consecutiveGuesses * correctGuesses + timer * difficultyPoints
-            : timer * difficultyPoints;
-
-        setTotalPoints(totalPoints + calculateTotalScore);
-
-        return calculateTotalScore;
-      } else {
-        return 0;
-      }
-    });
-  };
 
   return (
     <div>
@@ -212,23 +185,25 @@ export const QuizGame = () => {
             </button>
           ) : null}
 
-          {!gameOver ? <p>Score: {totalPoints}</p> : null}
+          {!gameOver && <p>Score: {quizScore}</p>}
           {loading && <p>The Api is Loading... or its down for now.</p>}
 
           {!loading && !gameOver && (
-            <Question
+            <QuestionLayout
               questionNumber={number + 1}
               totalQuestions={TOTAL_QUESTIONS}
               question={questions[0].question}
               answers={questions[0].answers}
               userAnswer={userAnswers ? userAnswers[number] : undefined}
               callback={checkAnswer}
+              timer={timer}
             />
           )}
-          {!gameOver &&
-          !loading &&
-          userAnswers.length === number + 1 &&
-          number !== TOTAL_QUESTIONS - 1 ? (
+          {(!gameOver &&
+            !loading &&
+            userAnswers.length === number + 1 &&
+            number !== TOTAL_QUESTIONS - 1) ||
+          timer === 0 ? (
             <button
               data-testid="NextQuestion"
               onClick={() => {

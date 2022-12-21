@@ -9,15 +9,17 @@ type QuestionProps = {
   userAnswer: AnswerProps | undefined;
   questionNumber: number;
   totalQuestions: number;
+  timer: number;
 };
 
-export const Question: FC<QuestionProps> = ({
+export const QuestionLayout: FC<QuestionProps> = ({
   question,
   answers,
   callback,
   userAnswer,
   questionNumber: questionNum,
   totalQuestions,
+  timer,
 }) => {
   return (
     <div>
@@ -33,7 +35,7 @@ export const Question: FC<QuestionProps> = ({
               className={`${
                 userAnswer?.correctAnswer === answer ? styles.buttonSuccess : ''
               }`}
-              disabled={!!userAnswer}
+              disabled={!!userAnswer || timer === 0}
               value={answer}
               onClick={callback}
             >
