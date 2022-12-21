@@ -59,8 +59,10 @@ You will also see any lint errors in the console.
 - `npm run cy:run` will run a end to end test that checks if the game works correctly. Which the test will sometimes fail. But it has to do with disabled buttons which the test cannot click. 
 
 ## :memo: NOTE TO ANYONE WHO READS THIS :memo:
- <p style="red">TO RELIABLY TEST THIS THIS TEST YOU HAVE TO REMOVE THE "disabled={!category} from the button in src/components/QuizGame/index.tsx which can be found if you scroll all the way down in that document.</p>
-
+ ```diff
+- TO RELIABLY TEST THIS THIS TEST YOU HAVE TO REMOVE THE "disabled={!category} from the button in src/components/QuizGame/index.tsx which can be found if you scroll all the way down in that document.
+```
+ 
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
